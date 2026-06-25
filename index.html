@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Consumo de Agua</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #81adc9;
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .logo {
+      width: 300px;
+      margin-bottom: 15px;
+      border-radius: 30px;
+    }
+
+    h1 {
+      color: #0077b6;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #4b5563;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    input{
+      width: 95.5% !important;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005f8f;
+    }
+
+    .resultado {
+      margin-top: 25px;
+      padding: 15px;
+      background: #dff6ff;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #005f8f;
+      display: none;
+    }
+
+    strong {
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <img src="logo.jpeg" alt="Logo" class="logo" />
+
+    <h1>Calculadora de consumo de agua</h1>
+
+    <p class="subtitle">
+      Calcula, según tu caso particular, cuánta agua se recomienda que bebas al día.
+    </p>
+
+    <form id="formAgua">
+      <label for="sexo">Sexo</label>
+      <select id="sexo" required>
+        <option value="">Seleccionar</option>
+        <option value="hombre">Hombre</option>
+        <option value="mujer">Mujer</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <label for="edad">Edad</label>
+      <input type="number" id="edad" min="1" required />
+
+      <label for="peso">Peso en kg</label>
+      <input type="number" id="peso" min="1" required />
+
+      <label for="actividad">Nivel de actividad</label>
+      <select id="actividad" required>
+        <option value="">Seleccionar</option>
+        <option value="sedentario">Sedentario</option>
+        <option value="moderado">Moderado</option>
+        <option value="activo">Activo</option>
+        <option value="muy_activo">Muy activo</option>
+      </select>
+
+      <button type="submit">Calcular consumo recomendado</button>
+    </form>
+
+    <div id="resultado" class="resultado"></div>
+  </div>
+
+  <script>
+    document.getElementById("formAgua").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const sexo = document.getElementById("sexo").value;
+      const edad = parseInt(document.getElementById("edad").value);
+      const peso = parseFloat(document.getElementById("peso").value);
+      const actividad = document.getElementById("actividad").value;
+
+      let aguaLitros = peso * 0.035;
+
+      if (edad > 60) {
+        aguaLitros -= 0.2;
+      }
+
+      if (sexo === "hombre") {
+        aguaLitros += 0.2;
+      }
+
+      if (actividad === "moderado") {
+        aguaLitros += 0.35;
+      }
+
+      if (actividad === "activo") {
+        aguaLitros += 0.7;
+      }
+
+      if (actividad === "muy_activo") {
+        aguaLitros += 1;
+      }
+
+      if (aguaLitros < 1.5) {
+        aguaLitros = 1.5;
+      }
+
+      const resultado = document.getElementById("resultado");
+      resultado.style.display = "block";
+      resultado.innerHTML = `
+        Se recomienda que bebas aproximadamente <br>
+        <strong>${aguaLitros.toFixed(2)} litros de agua por día</strong>.
+      `;
+    });
+  </script>
+
+</body>
+</html>
